@@ -25,7 +25,7 @@ class CategoriesResource extends Resource
 {
     protected static ?string $model = Categories::class;
 
-    protected static ?string $navigationIcon = 'tabler-category-2';
+    protected static ?string $navigationIcon = 'heroicon-s-rectangle-group';
 
     public static function form(Form $form): Form
     {
@@ -55,8 +55,10 @@ class CategoriesResource extends Resource
                 //
             ])
             ->actions([
-                EditAction::make(),
-                DeleteAction::make(),
+                EditAction::make()
+                    ->button(),
+                DeleteAction::make()
+                    ->button(),
             ])
             ->bulkActions([
                 BulkActionGroup::make([
