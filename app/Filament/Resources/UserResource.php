@@ -2,13 +2,11 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CostumersResource\Pages;
-use App\Filament\Resources\CostumersResource\RelationManagers;
-use App\Models\Costumers;
+use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers;
+use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Components\TextArea;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -21,34 +19,20 @@ use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\DeleteAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextArea;
 
-class CostumersResource extends Resource
+class UserResource extends Resource
 {
-    protected static ?string $model = Costumers::class;
+    protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-s-user-group';
+    protected static ?string $navigationIcon = 'heroicon-c-users';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->label('Name')
-                    ->required()
-                    ->maxLength(255),
-                TextInput::make('phone')
-                    ->label('Phone Number')
-                    ->required()
-                    ->maxLength(16),
-                TextInput::make('email')
-                    ->label('Email Address')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-                TextArea::make('address')
-                    ->label('Address')
-                    ->required()
-                    ->maxLength(255),
+                //
             ]);
     }
 
@@ -60,20 +44,25 @@ class CostumersResource extends Resource
                     ->label('No.')
                     ->rowIndex(),
                 TextColumn::make('name')
-                    ->label('Costumer Name')
-                    ->searchable()
-                    ->sortable(),
-                TextColumn::make('phone')
-                    ->label('Phone Number')
+                    ->label('Nama User')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
-                    ->label('Email Address')
+                    ->label('Email')
                     ->searchable()
                     ->sortable(),
-                TextColumn::make('address')
-                    ->label('Address')
-                    ->searchable()
+                TextColumn::make('created_at')
+                    ->label('Dibuat Pada')
+                    ->dateTime()
+                    ->sortable(),
+                IconColumn::make('is_active')
+                    ->label('Status')
+                    ->boolean()
+                    ->trueIcon('heroicon-s-check-circle')
+                    ->falseIcon('heroicon-s-x-circle')
+                    ->sortable(),
+                TextColumn::make('role')
+                    ->label('Peran')
                     ->sortable(),
             ])
             ->filters([
@@ -102,9 +91,9 @@ class CostumersResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCostumers::route('/'),
-            'create' => Pages\CreateCostumers::route('/create'),
-            'edit' => Pages\EditCostumers::route('/{record}/edit'),
+            'index' => Pages\ListUsers::route('/'),
+            'create' => Pages\CreateUser::route('/create'),
+            'edit' => Pages\EditUser::route('/{record}/edit'),
         ];
     }
 }

@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('status')->default('active')->nullable(); // 'active', 'inactive', 'banned'
+            $table->boolean('is_active')->default(true); // true for active, false for inactive
+            $table->string('role')->default('user')->nullable(); // 'user', 'admin', 'superadmin'
             $table->rememberToken();
             $table->timestamps();
         });

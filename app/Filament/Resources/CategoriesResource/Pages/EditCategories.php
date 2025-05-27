@@ -5,6 +5,7 @@ namespace App\Filament\Resources\CategoriesResource\Pages;
 use App\Filament\Resources\CategoriesResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
+use Illuminate\Http\RedirectResponse;
 
 class EditCategories extends EditRecord
 {
@@ -15,5 +16,10 @@ class EditCategories extends EditRecord
         return [
             Actions\DeleteAction::make(),
         ];
+    }
+
+    protected function getRedirectUrl(): string
+    {
+        return static::getResource()::getUrl('index');
     }
 }
