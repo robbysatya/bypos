@@ -44,7 +44,7 @@ class UserResource extends Resource
                     ->label('No.')
                     ->rowIndex(),
                 TextColumn::make('name')
-                    ->label('Nama User')
+                    ->label('User Name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('email')
@@ -52,8 +52,8 @@ class UserResource extends Resource
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')
-                    ->label('Dibuat Pada')
-                    ->dateTime()
+                    ->label('Created At')
+                    ->dateTime('d M Y, H:i')
                     ->sortable(),
                 IconColumn::make('is_active')
                     ->label('Status')
@@ -62,7 +62,7 @@ class UserResource extends Resource
                     ->falseIcon('heroicon-s-x-circle')
                     ->sortable(),
                 TextColumn::make('role')
-                    ->label('Peran')
+                    ->label('Role')
                     ->sortable(),
             ])
             ->filters([

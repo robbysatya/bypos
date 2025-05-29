@@ -12,6 +12,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
+use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Actions\DeleteAction;
+use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\TextArea;
 
 class ProductsResource extends Resource
 {
@@ -31,7 +40,62 @@ class ProductsResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('index')
+                    ->label('No.')
+                    ->rowIndex(),
+                TextColumn::make('sku')
+                    ->label('SKU')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('barcode')
+                    ->label('Barcode')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('name')
+                    ->label('Product Name')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('description')
+                    ->label('Description')
+                    ->limit(50)
+                    ->toggleable()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('image')
+                    ->label('Image')
+                    ->formatStateUsing(fn ($state) => $state ? '<img src="' . asset('storage/' . $state) . '" alt="Product Image" class="w-16 h-16 object-cover">' : 'No Image')
+                    ->html()
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('cost_price')
+                    ->label('Cost Price')
+                    ->money('IDR', true)
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('sale_price')
+                    ->label('Sale Price')
+                    ->money('IDR', true)
+                    ->sortable(),
+                TextColumn::make('Cost')
+                    ->label('Cost')
+                    ->money('IDR', true)
+                    ->sortable(),
+                TextColumn::make('stock')
+                    ->label('Stock')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('category.name')
+                    ->label('Category')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('created_at')
+                    ->label('Created At')
+                    ->dateTime('d M Y, H:i')
+                    ->sortable(),
+                TextColumn::make('user.name')
+                    ->label('Created By')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //
