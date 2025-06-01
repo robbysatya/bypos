@@ -17,6 +17,7 @@ class Costumers extends Model
     {
         return $this->belongsTo(User::class);
     }
+    
     public function categories(): HasMany
     {
         return $this->hasMany(Categories::class);

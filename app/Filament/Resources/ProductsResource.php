@@ -21,6 +21,12 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TextArea;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
+use App\Models\Categories;
+use App\Models\User;
+use App\Models\Costumers;
+use App\Models\Products as ProductsModel;
 
 class ProductsResource extends Resource
 {
@@ -32,7 +38,60 @@ class ProductsResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('sku')
+                    ->label('SKU')
+                    ->required()
+                    ->maxLength(50)
+                    ->unique(ignorable: fn (?Products $record) => $record),
+                TextInput::make('barcode')
+                    ->label('Barcode')
+                    ->required()
+                    ->maxLength(50)
+                    ->unique(ignorable: fn (?Products $record) => $record),
+                TextInput::make('name')
+                    ->label('Product Name')
+                    ->required()
+                    ->maxLength(255),
+                Select::make('category_id')
+                    ->label('Category')
+                    ->relationship('category', 'name')
+                    ->required()
+                    ->searchable()
+                    ->preload(),
+                TextInput::make('cost_price')
+                    ->label('Cost Price')
+                    ->required()
+                    ->numeric()
+                    ->maxLength(20),
+                TextInput::make('sale_price')
+                    ->label('Sale Price')
+                    ->required()
+                    ->numeric()
+                    ->maxLength(20),
+                Select::make('costumer_id')
+                    ->label('Customer')
+                    ->relationship('costumer', 'name')
+                    ->required()
+                    ->searchable()
+                    ->preload(),
+                TextInput::make('stock')
+                    ->label('Stock')
+                    ->required()
+                    ->numeric()
+                    ->maxLength(20),
+                FileUpload::make('image')
+                    ->disk('s3')
+                    ->label('Image Product')
+                    ->disk('public')
+                    ->directory('products')
+                    ->visibility('private')
+                    ->maxSize(1024) // 1MB
+                    ->acceptedFileTypes(['image/*'])
+                    ->nullable(),
+                TextArea::make('description')
+                    ->label('Description')
+                    ->maxLength(500)
+                    ->nullable(),
             ]);
     }
 
@@ -86,6 +145,10 @@ class ProductsResource extends Resource
                     ->sortable(),
                 TextColumn::make('category.name')
                     ->label('Category')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('costumer.name')
+                    ->label('Customer')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('created_at')
