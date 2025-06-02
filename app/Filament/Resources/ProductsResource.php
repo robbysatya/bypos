@@ -76,6 +76,12 @@ class ProductsResource extends Resource
                     ->required()
                     ->searchable()
                     ->preload(),
+                Select::make('user_id')
+                    ->label('User')
+                    ->relationship('user', 'name')
+                    ->required()
+                    ->searchable()
+                    ->preload(),
                 TextInput::make('stock')
                     ->label('Stock')
                     ->required()
@@ -85,6 +91,17 @@ class ProductsResource extends Resource
                     ->label('Description')
                     ->maxLength(500)
                     ->nullable(),
+                FileUpload::make('image')
+                    ->disk('s3')
+                    ->label('Product Image')
+                    ->image()
+                    ->directory('products')
+                    ->visibility('public')
+                    ->columnSpan('full')
+                    ->nullable()
+                    ->maxSize(1024) // 1MB
+                    ->acceptedFileTypes(['image/*'])
+                    ->preserveFilenames()
             ]);
     }
 
@@ -128,10 +145,6 @@ class ProductsResource extends Resource
                     ->label('Sale Price')
                     ->money('IDR', true)
                     ->sortable(),
-                TextColumn::make('Cost')
-                    ->label('Cost')
-                    ->money('IDR', true)
-                    ->sortable(),
                 TextColumn::make('stock')
                     ->label('Stock')
                     ->searchable()
@@ -146,7 +159,7 @@ class ProductsResource extends Resource
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->label('Created At')
-                    ->dateTime('d M Y, H:i')
+                    ->dateTime('d M Y')
                     ->sortable(),
                 TextColumn::make('user.name')
                     ->label('Created By')
@@ -157,7 +170,10 @@ class ProductsResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                EditAction::make()
+                    ->button(),
+                DeleteAction::make()
+                    ->button(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
