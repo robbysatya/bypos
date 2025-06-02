@@ -23,9 +23,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TextArea;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Costumers;
+
 use App\Models\Products as ProductsModel;
 
 class ProductsResource extends Resource
@@ -79,15 +81,6 @@ class ProductsResource extends Resource
                     ->required()
                     ->numeric()
                     ->maxLength(20),
-                FileUpload::make('image')
-                    ->disk('s3')
-                    ->label('Image Product')
-                    ->disk('public')
-                    ->directory('products')
-                    ->visibility('private')
-                    ->maxSize(1024) // 1MB
-                    ->acceptedFileTypes(['image/*'])
-                    ->nullable(),
                 TextArea::make('description')
                     ->label('Description')
                     ->maxLength(500)
