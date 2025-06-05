@@ -27,6 +27,7 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use App\Models\Categories;
 use App\Models\User;
 use App\Models\Costumers;
+use Illuminate\Support\Facades\Storage;
 
 use App\Models\Products as ProductsModel;
 
