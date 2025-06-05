@@ -92,7 +92,7 @@ class ProductsResource extends Resource
                     ->maxLength(500)
                     ->nullable(),
                 FileUpload::make('image')
-                    ->disk('s3')
+                    ->disk('local')
                     ->label('Product Image')
                     ->image()
                     ->directory('products')
