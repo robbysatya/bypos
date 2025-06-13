@@ -17,4 +17,7 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
+
+    Header set Access-Control-Allow-Origin 'http://127.0.0.1:8000' env=HTTP_ORIGIN
+    Header set Access-Control-Allow-Methods 'GET, POST, PUT, DELETE, OPTIONS' env=HTTP_ORIGIN
 </IfModule>

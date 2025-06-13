@@ -93,10 +93,9 @@ class ProductsResource extends Resource
                     ->maxLength(500)
                     ->nullable(),
                 FileUpload::make('image')
-                    ->disk('local')
+                    ->disk('s3')
                     ->label('Product Image')
-                    ->image()
-                    ->directory('products')
+                    // ->directory('products')
                     ->visibility('public')
                     ->columnSpan('full')
                     ->nullable()
